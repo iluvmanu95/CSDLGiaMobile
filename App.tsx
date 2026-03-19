@@ -158,17 +158,6 @@ function AppContent() {
     <View style={[styles.container, isDark && styles.containerDark]} {...panResponder.panHandlers}>
       <StatusBar style={isDark ? "light" : "dark"} />
       
-      {/* Drawer Overlay */}
-      <Animated.View 
-        pointerEvents={isSidebarOpen ? 'auto' : 'none'}
-        style={[
-          styles.drawerOverlay, 
-          { opacity: fadeAnim }
-        ]}
-      >
-        <Pressable style={styles.overlayPressable} onPress={() => setIsSidebarOpen(false)} />
-      </Animated.View>
-
       {/* Drawer Content */}
       <Animated.View 
         pointerEvents={isSidebarOpen ? 'auto' : 'none'}
@@ -190,8 +179,28 @@ function AppContent() {
         <Sidebar activeTab={activeTab} setActiveTab={handleTabChange} />
       </Animated.View>
 
-      <View style={styles.layout}>
+      <Animated.View 
+        style={[
+          styles.layout,
+          {
+            transform: [{
+              translateX: slideAnim.interpolate({
+                inputRange: [-DRAWER_WIDTH, 0],
+                outputRange: [0, DRAWER_WIDTH]
+              })
+            }]
+          }
+        ]}
+      >
         <View style={styles.main}>
+          {/* Transparent close overlay when sidebar is open */}
+          {isSidebarOpen && (
+            <Pressable 
+              style={styles.pushOverlay} 
+              onPress={() => setIsSidebarOpen(false)} 
+            />
+          )}
+          
           {/* Top Bar */}
           <View style={[styles.header, isDark && styles.headerDark, { paddingTop: insets.top, height: 64 + insets.top }]}>
             <View style={styles.headerLeft}>
@@ -241,7 +250,7 @@ function AppContent() {
           {/* Bottom Nav for Mobile */}
           {!isDesktop && <BottomNav activeTab={activeTab} setActiveTab={handleTabChange} />}
         </View>
-      </View>
+      </Animated.View>
     </View>
   );
 }
@@ -293,17 +302,14 @@ const styles = StyleSheet.create({
     padding: 8,
     marginLeft: -8,
   },
-  drawerOverlay: {
+  pushOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 1000,
-  },
-  overlayPressable: {
-    flex: 1,
+    zIndex: 999,
+    backgroundColor: 'transparent',
   },
   drawerContainer: {
     position: 'absolute',
