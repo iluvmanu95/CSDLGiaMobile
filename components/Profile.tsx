@@ -1,11 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native';
-import { Camera, Share2, MapPin, Link as LinkIcon, Calendar, Heart, PlusCircle, Grid, Bookmark } from 'lucide-react-native';
+import { Camera, Share2, MapPin, Link as LinkIcon, Calendar, Heart, PlusCircle, Grid, Bookmark, LogOut } from 'lucide-react-native';
 import { useTheme } from '../context/ThemeContext';
 
 const { width } = Dimensions.get('window');
 
-export const Profile: React.FC = () => {
+interface ProfileProps {
+  onLogout?: () => void;
+}
+
+export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
   const { isDark } = useTheme();
   const stats = [
     { label: 'Followers', value: '1.2k' },
@@ -145,6 +149,17 @@ export const Profile: React.FC = () => {
             </View>
           </TouchableOpacity>
         </View>
+
+        {/* Logout Button */}
+        {onLogout && (
+          <TouchableOpacity 
+            style={[styles.logoutButton, isDark && styles.logoutButtonDark]} 
+            onPress={onLogout}
+          >
+            <LogOut size={20} color="#ba1a1a" />
+            <Text style={styles.logoutText}>Log Out</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </ScrollView>
   );
@@ -496,5 +511,23 @@ const styles = StyleSheet.create({
   moreAvatarsDark: {
     backgroundColor: '#334155',
     borderColor: '#1e293b',
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#fee2e2',
+    paddingVertical: 16,
+    borderRadius: 16,
+    marginTop: 16,
+  },
+  logoutButtonDark: {
+    backgroundColor: 'rgba(186, 26, 26, 0.1)',
+  },
+  logoutText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#ba1a1a',
   },
 });

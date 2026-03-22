@@ -6,9 +6,10 @@ import { useTheme } from '../context/ThemeContext';
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  onLogout?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onLogout }) => {
   const { isDark } = useTheme();
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -75,7 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
           
           <View style={[styles.divider, isDark && styles.dividerDark]} />
           
-          <TouchableOpacity style={styles.logoutButton}>
+          <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
             <LogOut size={20} color="#ba1a1a" />
             <Text style={styles.logoutLabel}>Logout</Text>
           </TouchableOpacity>
