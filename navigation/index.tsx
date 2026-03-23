@@ -123,6 +123,14 @@ export default function AppContent() {
             ]).start();
         }
     }, [isSidebarOpen, DRAWER_WIDTH]);
+    
+    // Hard reset UI state when auth changes
+    useEffect(() => {
+        if (!isAuthenticated) {
+            setIsSidebarOpen(false);
+            slideAnim.setValue(-DRAWER_WIDTH);
+        }
+    }, [isAuthenticated, DRAWER_WIDTH]);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -134,10 +142,14 @@ export default function AppContent() {
     };
 
     const handleLogin = () => {
+        setIsSidebarOpen(false); 
+        slideAnim.setValue(-DRAWER_WIDTH);
+        setActiveTab('dashboard');
         setIsAuthenticated(true);
     };
 
     const handleLogout = () => {
+        slideAnim.setValue(-DRAWER_WIDTH); // Reset animation instantly
         setIsAuthenticated(false);
         setActiveTab('dashboard');
         setIsSidebarOpen(false);

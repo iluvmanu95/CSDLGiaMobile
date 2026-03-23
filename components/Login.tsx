@@ -10,7 +10,10 @@ import {
   Image,
   useWindowDimensions,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView
 } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Sparkles, Apple } from 'lucide-react-native';
@@ -71,112 +74,120 @@ export function Login({ onLogin }: LoginProps) {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={[styles.container, isDark && styles.containerDark]}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      {/* Decorative Background Elements */}
-      <View style={styles.bgDecor1} />
-      <View style={styles.bgDecor2} />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 24,
+            backgroundColor: isDark ? '#0f172a' : '#f8f9fa'
+          }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Decorative Background Elements */}
+          <View style={styles.bgDecor1} />
+          <View style={styles.bgDecor2} />
 
-      <View style={[styles.contentWrapper, isDesktop && styles.contentWrapperDesktop]}>
-        {/* Brand Identity */}
-        <View style={styles.header}>
-          <View style={styles.logoContainer}>
-            <Sparkles size={32} color="#ffffff" fill="#ffffff" />
-          </View>
-          <Text style={[styles.brandName, isDark && styles.textDark]}>Indigo Ether</Text>
-        </View>
-
-        {/* Login Container */}
-        <View style={[styles.card, isDark && styles.cardDark]}>
-          <View style={styles.cardHeader}>
-            <Text style={[styles.title, isDark && styles.textDark]}>Welcome Back</Text>
-            <Text style={[styles.subtitle, isDark && styles.textMutedDark]}>
-              Please enter your credentials to access your curated dashboard.
-            </Text>
-          </View>
-
-          {/* Form Section */}
-          <View style={styles.form}>
-            <View style={styles.inputGroup}>
-              <Text style={[styles.label, isDark && styles.textMutedDark]}>TÊN ĐĂNG NHẬP</Text>
-              <TextInput
-                style={[styles.input, isDark && styles.inputDark]}
-                placeholder="Nhập tên đăng nhập"
-                placeholderTextColor={isDark ? "#94a3b8" : "#9ca3af"}
-                value={username}
-                onChangeText={setUsername}
-                autoCapitalize="none"
-              />
+          <View style={[styles.contentWrapper, isDesktop && styles.contentWrapperDesktop]}>
+            <View style={styles.header}>
+              <View style={styles.logoContainer}>
+                <Sparkles size={32} color="#ffffff" fill="#ffffff" />
+              </View>
+              <Text style={[styles.brandName, isDark && styles.textDark]}>Cơ sở dữ liệu Giá</Text>
             </View>
 
-            <View style={styles.inputGroup}>
-              <View style={styles.passwordHeader}>
-                <Text style={[styles.label, isDark && styles.textMutedDark]}>MẬT KHẨU</Text>
-                <TouchableOpacity>
-                  <Text style={styles.forgotPassword}>Quên mật khẩu?</Text>
+            <View style={[styles.card, isDark && styles.cardDark]}>
+              <View style={styles.cardHeader}>
+                <Text style={[styles.title, isDark && styles.textDark]}>Chào mừng bạn</Text>
+                <Text style={[styles.subtitle, isDark && styles.textMutedDark]}>
+                  Vui lòng nhập thông tin đăng nhập để truy cập vào bảng điều khiển của bạn.
+                </Text>
+              </View>
+
+              <View style={styles.form}>
+                <View style={styles.inputGroup}>
+                  <Text style={[styles.label, isDark && styles.textMutedDark]}>TÊN ĐĂNG NHẬP</Text>
+                  <TextInput
+                    style={[styles.input, isDark && styles.inputDark]}
+                    placeholder="Nhập tên đăng nhập"
+                    placeholderTextColor={isDark ? "#94a3b8" : "#9ca3af"}
+                    value={username}
+                    onChangeText={setUsername}
+                    autoCapitalize="none"
+                  />
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <View style={styles.passwordHeader}>
+                    <Text style={[styles.label, isDark && styles.textMutedDark]}>MẬT KHẨU</Text>
+                    <TouchableOpacity>
+                      <Text style={styles.forgotPassword}>Quên mật khẩu?</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <TextInput
+                    style={[styles.input, isDark && styles.inputDark]}
+                    placeholder="••••••••"
+                    placeholderTextColor={isDark ? "#94a3b8" : "#9ca3af"}
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                  />
+                </View>
+
+                <TouchableOpacity
+                  style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
+                  onPress={handlePressLogin}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <ActivityIndicator color="#ffffff" />
+                  ) : (
+                    <Text style={styles.loginButtonText}>Đăng Nhập</Text>
+                  )}
                 </TouchableOpacity>
               </View>
-              <TextInput
-                style={[styles.input, isDark && styles.inputDark]}
-                placeholder="••••••••"
-                placeholderTextColor={isDark ? "#94a3b8" : "#9ca3af"}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-              />
+
+              {/* <View style={styles.dividerContainer}>
+                <View style={[styles.dividerLine, isDark && styles.dividerLineDark]} />
+                <View style={[styles.dividerTextContainer, isDark && styles.dividerTextContainerDark]}>
+                  <Text style={[styles.dividerText, isDark && styles.textMutedDark]}>OR SIGN IN WITH</Text>
+                </View>
+              </View>
+
+              <View style={styles.socialContainer}>
+                <TouchableOpacity style={[styles.socialButton, isDark && styles.socialButtonDark]}>
+                  <Image
+                    source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg' }}
+                    style={styles.socialIcon}
+                  />
+                  <Text style={[styles.socialButtonText, isDark && styles.textDark]}>Google</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.socialButton, isDark && styles.socialButtonDark]}>
+                  <Apple size={20} color={isDark ? "#ffffff" : "#191c1d"} fill={isDark ? "#ffffff" : "#191c1d"} />
+                  <Text style={[styles.socialButtonText, isDark && styles.textDark]}>Apple</Text>
+                </TouchableOpacity>
+              </View> */}
             </View>
 
-            <TouchableOpacity
-              style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
-              onPress={handlePressLogin}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#ffffff" />
-              ) : (
-                <Text style={styles.loginButtonText}>Đăng Nhập</Text>
-              )}
-            </TouchableOpacity>
-          </View>
-
-          {/* Social Divider */}
-          <View style={styles.dividerContainer}>
-            <View style={[styles.dividerLine, isDark && styles.dividerLineDark]} />
-            <View style={[styles.dividerTextContainer, isDark && styles.dividerTextContainerDark]}>
-              <Text style={[styles.dividerText, isDark && styles.textMutedDark]}>OR SIGN IN WITH</Text>
+            <View style={styles.footer}>
+              <Text style={[styles.footerText, isDark && styles.textMutedDark]}>
+                Bạn chưa có tài khoản?{' '}
+              </Text>
+              <TouchableOpacity>
+                <Text style={styles.signupText}>Đăng ký</Text>
+              </TouchableOpacity>
             </View>
           </View>
-
-          {/* Social Logins */}
-          <View style={styles.socialContainer}>
-            <TouchableOpacity style={[styles.socialButton, isDark && styles.socialButtonDark]}>
-              <Image
-                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg' }}
-                style={styles.socialIcon}
-              />
-              <Text style={[styles.socialButtonText, isDark && styles.textDark]}>Google</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={[styles.socialButton, isDark && styles.socialButtonDark]}>
-              <Apple size={20} color={isDark ? "#ffffff" : "#191c1d"} fill={isDark ? "#ffffff" : "#191c1d"} />
-              <Text style={[styles.socialButtonText, isDark && styles.textDark]}>Apple</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={[styles.footerText, isDark && styles.textMutedDark]}>
-            Don't have an account?{' '}
-          </Text>
-          <TouchableOpacity>
-            <Text style={styles.signupText}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
