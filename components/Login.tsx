@@ -13,10 +13,12 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView
+  ScrollView,
+  Pressable
 } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
-import { Sparkles, Apple } from 'lucide-react-native';
+import { Sparkles, Apple, Eye, EyeOff } from 'lucide-react-native';
+import Logo from '../assets/images/LIFESOFT_goc.png';
 
 interface LoginProps {
   onLogin: () => void;
@@ -30,6 +32,7 @@ export function Login({ onLogin }: LoginProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handlePressLogin = async () => {
     //onLogin();
@@ -97,7 +100,7 @@ export function Login({ onLogin }: LoginProps) {
           <View style={[styles.contentWrapper, isDesktop && styles.contentWrapperDesktop]}>
             <View style={styles.header}>
               <View style={styles.logoContainer}>
-                <Sparkles size={32} color="#ffffff" fill="#ffffff" />
+                <Image source={Logo} style={styles.logoImage} />
               </View>
               <Text style={[styles.brandName, isDark && styles.textDark]}>Cơ sở dữ liệu Giá</Text>
             </View>
@@ -130,14 +133,27 @@ export function Login({ onLogin }: LoginProps) {
                       <Text style={styles.forgotPassword}>Quên mật khẩu?</Text>
                     </TouchableOpacity>
                   </View>
-                  <TextInput
-                    style={[styles.input, isDark && styles.inputDark]}
-                    placeholder="••••••••"
-                    placeholderTextColor={isDark ? "#94a3b8" : "#9ca3af"}
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                  />
+                  <View style={[styles.passwordInputContainer, isDark && styles.passwordInputContainerDark]}>
+                    <TextInput
+                      style={[styles.passwordInput, isDark && styles.textDark]}
+                      placeholder="••••••••"
+                      placeholderTextColor={isDark ? "#94a3b8" : "#9ca3af"}
+                      value={password}
+                      onChangeText={setPassword}
+                      secureTextEntry={!isPasswordVisible}
+                    />
+                    <Pressable 
+                      onPressIn={() => setIsPasswordVisible(true)}
+                      onPressOut={() => setIsPasswordVisible(false)}
+                      style={styles.eyeIcon}
+                    >
+                      {isPasswordVisible ? (
+                        <Eye size={20} color={isDark ? "#ffffff" : "#464652"} />
+                      ) : (
+                        <EyeOff size={20} color={isDark ? "#ffffff" : "#464652"} />
+                      )}
+                    </Pressable>
+                  </View>
                 </View>
 
                 <TouchableOpacity
@@ -235,18 +251,16 @@ const styles = StyleSheet.create({
     marginBottom: 48,
   },
   logoContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 16,
-    backgroundColor: '#222353',
+    width: 120,
+    height: 120,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 24,
-    shadowColor: '#191c1d',
-    shadowOffset: { width: 0, height: 20 },
-    shadowOpacity: 0.04,
-    shadowRadius: 40,
-    elevation: 5,
+    marginBottom: 16,
+  },
+  logoImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   brandName: {
     fontFamily: 'Manrope',
@@ -318,6 +332,26 @@ const styles = StyleSheet.create({
   inputDark: {
     backgroundColor: '#334155',
     color: '#ffffff',
+  },
+  passwordInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: '#e7e8e9',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+  },
+  passwordInputContainerDark: {
+    backgroundColor: '#334155',
+  },
+  passwordInput: {
+    flex: 1,
+    paddingVertical: 14,
+    fontSize: 14,
+    color: '#191c1d',
+  },
+  eyeIcon: {
+    padding: 8,
   },
   forgotPassword: {
     fontSize: 12,
