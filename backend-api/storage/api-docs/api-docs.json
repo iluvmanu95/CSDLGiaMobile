@@ -6,6 +6,74 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/dsdonvi": {
+            "get": {
+                "tags": [
+                    "Administrative"
+                ],
+                "summary": "Lấy danh sách đơn vị",
+                "description": "Trả về toàn bộ danh sách các đơn vị",
+                "operationId": "5d616d22c2185e7012fb5e07415756c8",
+                "responses": {
+                    "200": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dsdiaban": {
+            "get": {
+                "tags": [
+                    "Administrative"
+                ],
+                "summary": "Lấy danh sách địa bàn",
+                "description": "Trả về toàn bộ danh sách các địa bàn hành chính",
+                "operationId": "d2aa1e9616e7943103ea7448ec38b905",
+                "responses": {
+                    "200": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
