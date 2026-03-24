@@ -10,6 +10,7 @@ import { BottomNav } from '../components/BottomNav';
 import { Login } from '../components/Login';
 import { Search, Bell, Menu, X } from 'lucide-react-native';
 import { useTheme } from '../context/ThemeContext';
+import { Reports } from '../components/Reports';
 import { styles } from '../contains';
 
 export default function AppContent() {
@@ -124,7 +125,7 @@ export default function AppContent() {
             ]).start();
         }
     }, [isSidebarOpen, DRAWER_WIDTH]);
-    
+
     // Hard reset UI state when auth changes
     useEffect(() => {
         if (!isAuthenticated) {
@@ -155,7 +156,7 @@ export default function AppContent() {
     };
 
     const handleLogin = (username: string) => {
-        setIsSidebarOpen(false); 
+        setIsSidebarOpen(false);
         slideAnim.setValue(-DRAWER_WIDTH);
         setActiveTab('dashboard');
         setIsAuthenticated(true);
@@ -173,6 +174,8 @@ export default function AppContent() {
         switch (activeTab) {
             case 'dashboard':
                 return <Dashboard user={user} />;
+            case 'reports':
+                return <Reports />;
             case 'profile':
                 return <Profile onLogout={handleLogout} />;
             case 'settings':

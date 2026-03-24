@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Home, Search, Bell, User } from 'lucide-react-native';
+import { Home, Search, Bell, User, BarChart2 } from 'lucide-react-native';
 import { useTheme } from '../context/ThemeContext';
 
 interface BottomNavProps {
@@ -20,25 +20,33 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
 
   return (
     <View style={[styles.container, isDark && styles.containerDark]}>
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={() => setActiveTab('dashboard')}
         style={[styles.navItem, activeTab === 'dashboard' && (isDark ? styles.activeNavItemDark : styles.activeNavItem)]}
       >
         <Home size={24} color={getIconColor('dashboard')} />
       </TouchableOpacity>
-      
-      <TouchableOpacity style={styles.navItem}>
+
+      {/* Search */}
+      {/* <TouchableOpacity style={styles.navItem}>
         <Search size={24} color={isDark ? '#94a3b8' : '#64748b'} />
+      </TouchableOpacity> */}
+
+      <TouchableOpacity
+        onPress={() => setActiveTab('reports')}
+        style={[styles.navItem, activeTab === 'reports' && (isDark ? styles.activeNavItemDark : styles.activeNavItem)]}
+      >
+        <BarChart2 size={24} color={getIconColor('reports')} />
       </TouchableOpacity>
-      
-      <TouchableOpacity 
+
+      <TouchableOpacity
         onPress={() => setActiveTab('notifications')}
         style={[styles.navItem, activeTab === 'notifications' && (isDark ? styles.activeNavItemDark : styles.activeNavItem)]}
       >
         <Bell size={24} color={getIconColor('notifications')} />
       </TouchableOpacity>
-      
-      <TouchableOpacity 
+
+      <TouchableOpacity
         onPress={() => setActiveTab('profile')}
         style={[styles.navItem, activeTab === 'profile' && (isDark ? styles.activeNavItemDark : styles.activeNavItem)]}
       >
