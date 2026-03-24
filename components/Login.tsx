@@ -21,7 +21,7 @@ import { Sparkles, Apple, Eye, EyeOff } from 'lucide-react-native';
 import Logo from '../assets/images/LIFESOFT_goc.png';
 
 interface LoginProps {
-  onLogin: () => void;
+  onLogin: (username: string) => void;
 }
 
 export function Login({ onLogin }: LoginProps) {
@@ -64,7 +64,7 @@ export function Login({ onLogin }: LoginProps) {
       const json = await response.json();
 
       if (response.ok && json.success) {
-        onLogin();
+        onLogin(username);
       } else {
         Alert.alert('Đăng nhập thất bại', json.message || 'Tên đăng nhập hoặc mật khẩu không đúng');
       }

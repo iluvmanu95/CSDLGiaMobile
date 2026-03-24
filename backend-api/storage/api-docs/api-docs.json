@@ -89,6 +89,127 @@
                     }
                 }
             }
+        },
+        "/api/getUsers": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Lấy thông tin người dùng",
+                "description": "Truy xuất thông tin chi tiết của người dùng bằng username",
+                "operationId": "200f43e2a214715fabc23acd8ec85931",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "Tên đăng nhập của người dùng",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy người dùng"
+                    }
+                }
+            }
+        },
+        "/api/thuetainguyen": {
+            "get": {
+                "tags": [
+                    "ThueTaiNguyen"
+                ],
+                "summary": "Lấy danh sách Thuế Tài Nguyên",
+                "description": "Trả về danh sách phân trang các hồ sơ thuế tài nguyên",
+                "operationId": "12f910508f36770c78f199cb5284e84b",
+                "responses": {
+                    "200": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/thuetainguyen/{mahs}": {
+            "get": {
+                "tags": [
+                    "ThueTaiNguyen"
+                ],
+                "summary": "Lấy chi tiết Thuế Tài Nguyên",
+                "description": "Trả về thông tin chi tiết và danh sách chi tiết (thuetainguyenct) theo mã hồ sơ",
+                "operationId": "c8d52b931f93ff1f0c8ea90a80322030",
+                "parameters": [
+                    {
+                        "name": "mahs",
+                        "in": "path",
+                        "description": "Mã hồ sơ",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy hồ sơ"
+                    }
+                }
+            }
         }
     },
     "security": [

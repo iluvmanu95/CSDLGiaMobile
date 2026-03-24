@@ -20,6 +20,7 @@ export default function AppContent() {
     const DRAWER_WIDTH = width > 450 ? 300 : width * 0.8;
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState<any>(null);
     const [activeTab, setActiveTab] = useState('dashboard');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -141,11 +142,24 @@ export default function AppContent() {
         setIsSidebarOpen(false);
     };
 
-    const handleLogin = () => {
+    const fetchUser = async (username: string) => {
+        try {
+            const response = await fetch(`https://subintegumental-earthly-lon.ngrok-free.dev/api/getUsers?username=${username}`);
+            const json = await response.json();
+            if (json.success) {
+                setUser(json.data);
+            }
+        } catch (error) {
+            console.error('Error fetching user:', error);
+        }
+    };
+
+    const handleLogin = (username: string) => {
         setIsSidebarOpen(false); 
         slideAnim.setValue(-DRAWER_WIDTH);
         setActiveTab('dashboard');
         setIsAuthenticated(true);
+        fetchUser(username);
     };
 
     const handleLogout = () => {
@@ -158,7 +172,7 @@ export default function AppContent() {
     const renderContent = () => {
         switch (activeTab) {
             case 'dashboard':
-                return <Dashboard />;
+                return <Dashboard user={user} />;
             case 'profile':
                 return <Profile onLogout={handleLogout} />;
             case 'settings':

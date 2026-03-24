@@ -79,4 +79,56 @@ class AuthController extends Controller
             ]
         ], 200);
     }
+    /**
+     * @OA\Get(
+     *     path="/api/getUsers",
+     *     tags={"User"},
+     *     summary="Lấy thông tin người dùng",
+     *     description="Truy xuất thông tin chi tiết của người dùng bằng username",
+     *     @OA\Parameter(
+     *         name="username",
+     *         in="query",
+     *         description="Tên đăng nhập của người dùng",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không tìm thấy người dùng"
+     *     )
+     * )
+     */
+    public function getUsers(Request $request)
+    {
+        $username = $request->query('username');
+
+        if (!$username) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Thiếu tham số username'
+            ], 400);
+        }
+
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy người dùng'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $user
+        ], 200);
+    }
 }

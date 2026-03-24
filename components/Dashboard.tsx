@@ -6,7 +6,7 @@ import { useTheme } from '../context/ThemeContext';
 const { width } = Dimensions.get('window');
 const isDesktop = width >= 768;
 
-export const Dashboard: React.FC = () => {
+export const Dashboard: React.FC<{ user?: any }> = ({ user }) => {
   const { isDark } = useTheme();
 
   return (
@@ -16,7 +16,7 @@ export const Dashboard: React.FC = () => {
         <View style={[styles.badge, isDark && styles.badgeDark]}>
           <Text style={[styles.badgeText, isDark && styles.textDark]}>Curator Pro</Text>
         </View>
-        <Text style={[styles.heroTitle, isDark && styles.textDark]}>Good morning, Alex.</Text>
+        <Text style={[styles.heroTitle, isDark && styles.textDark]}>Good morning, {user?.name || 'User'}.</Text>
         <Text style={[styles.heroSubtitle, isDark && styles.textMutedDark]}>
           Your collection grew by 12% this week. Here's your overview.
         </Text>
