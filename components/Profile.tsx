@@ -12,9 +12,9 @@ interface ProfileProps {
 export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
   const { isDark } = useTheme();
   const stats = [
-    { label: 'Followers', value: '1.2k' },
-    { label: 'Following', value: '840' },
-    { label: 'Collections', value: '42' },
+    { label: 'Người theo dõi', value: '1.2k' },
+    { label: 'Đang theo dõi', value: '840' },
+    { label: 'Bộ sưu tập', value: '42' },
   ];
 
   return (
@@ -48,7 +48,7 @@ export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
             {/* Actions */}
             <View style={styles.headerActions}>
               <TouchableOpacity style={[styles.editButton, isDark && styles.editButtonDark]}>
-                <Text style={[styles.editButtonText, isDark && styles.textDark]}>Edit Profile</Text>
+                <Text style={[styles.editButtonText, isDark && styles.textDark]}>Chỉnh sửa hồ sơ</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.shareButton, isDark && styles.shareButtonDark]}>
                 <Share2 size={20} color={isDark ? "#ffffff" : "#222353"} />
@@ -72,9 +72,9 @@ export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
       <View style={styles.content}>
         {/* About Card */}
         <View style={[styles.card, isDark && styles.cardDark]}>
-          <Text style={[styles.cardTitle, isDark && styles.textDark]}>About</Text>
+          <Text style={[styles.cardTitle, isDark && styles.textDark]}>Giới thiệu</Text>
           <Text style={[styles.bioText, isDark && styles.textMutedDark]}>
-            Digital curator and visual storyteller based in San Francisco. Passionate about minimalist architecture, editorial design, and the intersection of technology and art.
+            Nhà quản lý kỹ thuật số và người kể chuyện bằng hình ảnh sống tại San Francisco. Đam mê kiến trúc tối giản, thiết kế biên tập và sự giao thoa giữa công nghệ và nghệ thuật.
           </Text>
           
           <View style={styles.metaContainer}>
@@ -88,7 +88,7 @@ export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
             </View>
             <View style={styles.metaItem}>
               <Calendar size={18} color={isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(34, 35, 83, 0.6)"} />
-              <Text style={[styles.metaText, isDark && styles.textDark]}>Joined March 2021</Text>
+              <Text style={[styles.metaText, isDark && styles.textDark]}>Tham gia tháng 03, 2021</Text>
             </View>
           </View>
 
@@ -107,9 +107,13 @@ export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
 
         {/* Tabs */}
         <View style={[styles.tabs, isDark && styles.borderDark]}>
-          {['Collections', 'Activity', 'Saved'].map((tab, i) => (
-            <TouchableOpacity key={tab} style={[styles.tab, i === 0 && (isDark ? styles.activeTabDark : styles.activeTab)]}>
-              <Text style={[styles.tabText, i === 0 && (isDark ? styles.activeTabTextDark : styles.activeTabText)]}>{tab}</Text>
+          {[
+            { id: 'collections', label: 'Bộ sưu tập' },
+            { id: 'activity', label: 'Hoạt động' },
+            { id: 'saved', label: 'Đã lưu' }
+          ].map((tab, i) => (
+            <TouchableOpacity key={tab.id} style={[styles.tab, i === 0 && (isDark ? styles.activeTabDark : styles.activeTab)]}>
+              <Text style={[styles.tabText, i === 0 && (isDark ? styles.activeTabTextDark : styles.activeTabText)]}>{tab.label}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -123,7 +127,7 @@ export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
                 source={{ uri: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=800&auto=format&fit=crop" }}
               />
               <View style={styles.editorBadge}>
-                <Text style={styles.editorBadgeText}>Editor's Choice</Text>
+                <Text style={styles.editorBadgeText}>Lựa chọn của biên tập viên</Text>
               </View>
             </View>
             <View style={styles.collectionInfo}>
@@ -144,7 +148,7 @@ export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
                     <Text style={[styles.moreAvatarsText, isDark && styles.textDark]}>+12</Text>
                   </View>
                 </View>
-                <Text style={[styles.collectionMeta, isDark && styles.textMutedDark]}>24 Items • 2d ago</Text>
+                <Text style={[styles.collectionMeta, isDark && styles.textMutedDark]}>24 Mục • 2 ngày trước</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -157,7 +161,7 @@ export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
             onPress={onLogout}
           >
             <LogOut size={20} color="#ba1a1a" />
-            <Text style={styles.logoutText}>Log Out</Text>
+            <Text style={styles.logoutText}>Đăng xuất</Text>
           </TouchableOpacity>
         )}
       </View>

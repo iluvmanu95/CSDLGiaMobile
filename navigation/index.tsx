@@ -8,10 +8,21 @@ import { Settings } from '../components/Settings';
 import { Sidebar } from '../components/Sidebar';
 import { BottomNav } from '../components/BottomNav';
 import { Login } from '../components/Login';
-import { Search, Bell, Menu, X } from 'lucide-react-native';
+import { Search, Bell, Menu, X, ChevronLeft } from 'lucide-react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Reports } from '../components/Reports';
+import { Analytics } from '../components/Analytics';
+import { Notifications } from '../components/Notifications';
 import { styles } from '../contains';
+
+const TAB_TITLES: { [key: string]: string } = {
+    dashboard: 'Trang chủ',
+    analytics: 'Báo cáo thống kê',
+    reports: 'Biểu đồ thống kê',
+    profile: 'Trang cá nhân',
+    notifications: 'Thông báo',
+    settings: 'Cài đặt',
+};
 
 export default function AppContent() {
     const insets = useSafeAreaInsets();
@@ -180,12 +191,10 @@ export default function AppContent() {
                 return <Profile onLogout={handleLogout} />;
             case 'settings':
                 return <Settings />;
+            case 'analytics':
+                return <Analytics />;
             case 'notifications':
-                return (
-                    <View style={styles.centerContent}>
-                        <Text style={[styles.placeholderText, isDark && styles.textDark]}>Notifications coming soon</Text>
-                    </View>
-                );
+                return <Notifications onBack={() => setActiveTab('dashboard')} />;
             default:
                 return <Dashboard />;
         }
@@ -250,11 +259,17 @@ export default function AppContent() {
                     {/* Top Bar */}
                     <View style={[styles.header, isDark && styles.headerDark, { paddingTop: insets.top, height: 64 + insets.top }]}>
                         <View style={styles.headerLeft}>
-                            <TouchableOpacity onPress={toggleSidebar} style={styles.menuButton}>
-                                <Menu size={28} color={isDark ? "#ffffff" : "#222353"} strokeWidth={2.5} />
-                            </TouchableOpacity>
+                            {activeTab === 'notifications' ? (
+                                <TouchableOpacity onPress={() => setActiveTab('dashboard')} style={styles.menuButton}>
+                                    <ChevronLeft size={28} color={isDark ? "#ffffff" : "#222353"} strokeWidth={2.5} />
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity onPress={toggleSidebar} style={styles.menuButton}>
+                                    <Menu size={28} color={isDark ? "#ffffff" : "#222353"} strokeWidth={2.5} />
+                                </TouchableOpacity>
+                            )}
                             <Text style={[styles.headerTitle, isDark && styles.textDark]}>
-                                {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+                                {TAB_TITLES[activeTab] || activeTab}
                             </Text>
                         </View>
 

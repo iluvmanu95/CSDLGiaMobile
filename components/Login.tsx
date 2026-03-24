@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { Sparkles, Apple, Eye, EyeOff } from 'lucide-react-native';
+import { API_BASE_URL } from '../config';
 import Logo from '../assets/images/LIFESOFT_goc.png';
 
 interface LoginProps {
@@ -47,7 +48,7 @@ export function Login({ onLogin }: LoginProps) {
       // Use 10.0.2.2 for Android emulator to access PC localhost, 
       // or substitute with your PC's local IP (e.g., 192.168.1.x) if testing on physical device
       //const apiUrl = Platform.OS === 'android' ? 'http://10.0.2.2:8000/api/login' : 'http://localhost:8000/api/login';
-      const apiUrl = 'https://subintegumental-earthly-lon.ngrok-free.dev/api/login';
+      const apiUrl = `${API_BASE_URL}/login`;
 
       const response = await fetch(apiUrl, {
         method: 'POST',

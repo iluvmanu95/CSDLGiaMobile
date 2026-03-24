@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
-import { LayoutDashboard, User, Bell, Settings, LogOut } from 'lucide-react-native';
+import { LayoutDashboard, User, Bell, Settings, LogOut, LineChart, BarChart2 } from 'lucide-react-native';
 import { useTheme } from '../context/ThemeContext';
 
 interface SidebarProps {
@@ -12,10 +12,12 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onLogout }) => {
   const { isDark } = useTheme();
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'profile', label: 'Profile', icon: User },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'dashboard', title: 'Trang chủ', icon: LayoutDashboard },
+    { id: 'analytics', title: 'Báo cáo thống kê', icon: LineChart },
+    { id: 'reports', title: 'Biểu đồ thống kê', icon: BarChart2 },
+    { id: 'profile', title: 'Trang cá nhân', icon: User },
+    //{ id: 'notifications', title: 'Thông báo', icon: Bell },
+    { id: 'settings', title: 'Cài đặt', icon: Settings },
   ];
 
   const getIconColor = (itemId: string) => {
@@ -32,9 +34,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onLog
         <View style={styles.profileHeader}>
           <View style={styles.avatarContainer}>
             <View style={[styles.avatarWrapper, isDark && styles.avatarWrapperDark]}>
-              <Image 
-                alt="Alex Rivera" 
-                style={styles.avatar} 
+              <Image
+                alt="Alex Rivera"
+                style={styles.avatar}
                 source={{ uri: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&h=200&auto=format&fit=crop" }}
               />
             </View>
@@ -60,25 +62,25 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onLog
                 activeTab === item.id && (isDark ? styles.activeNavItemDark : styles.activeNavItem)
               ]}
             >
-              <item.icon 
-                size={20} 
-                color={getIconColor(item.id)} 
+              <item.icon
+                size={20}
+                color={getIconColor(item.id)}
               />
               <Text style={[
                 styles.navLabel,
                 isDark && styles.textMutedDark,
                 activeTab === item.id && (isDark ? styles.activeNavLabelDark : styles.activeNavLabel)
               ]}>
-                {item.label}
+                {item.title}
               </Text>
             </TouchableOpacity>
           ))}
-          
+
           <View style={[styles.divider, isDark && styles.dividerDark]} />
-          
+
           <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
             <LogOut size={20} color="#ba1a1a" />
-            <Text style={styles.logoutLabel}>Logout</Text>
+            <Text style={styles.logoutLabel}>Đăng xuất</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

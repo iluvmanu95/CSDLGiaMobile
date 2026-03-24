@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { FileText, BarChart2, Activity, Download, Eye } from 'lucide-react-native';
 import { useTheme } from '../context/ThemeContext';
 import Svg, { Circle } from 'react-native-svg';
+import { API_BASE_URL } from '../config';
 
 export const Reports = () => {
     const { isDark } = useTheme();
@@ -12,7 +13,7 @@ export const Reports = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const response = await fetch(`https://subintegumental-earthly-lon.ngrok-free.dev/api/thuetainguyen/stats?filter=${activeFilter}`);
+                const response = await fetch(`${API_BASE_URL}/thuetainguyen/stats?filter=${activeFilter}`);
                 const json = await response.json();
                 if (json.success) {
                     setStats(json.data);
