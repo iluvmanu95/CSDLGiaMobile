@@ -278,6 +278,60 @@
                     }
                 }
             }
+        },
+        "/api/thuetainguyen/stats": {
+            "get": {
+                "tags": [
+                    "ThueTaiNguyen"
+                ],
+                "summary": "Lấy thống kê hồ sơ Thuế Tài Nguyên",
+                "description": "Trả về số lượng tổng cộng, hồ sơ đã hoàn thành (HT) và chưa hoàn thành. Hỗ trợ lọc theo thời gian.",
+                "operationId": "7ac72ade8c6cbe742a1fbf8f54326583",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Lọc theo thời gian: all, week, month, quarter, year",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "all"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "total": {
+                                                    "type": "integer"
+                                                },
+                                                "completed": {
+                                                    "type": "integer"
+                                                },
+                                                "incomplete": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "security": [

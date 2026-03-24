@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 Route::get('/getUsers', [\App\Http\Controllers\AuthController::class, 'getUsers']);
 
+Route::get('/thuetainguyen/stats', [\App\Http\Controllers\ThueTaiNguyenController::class, 'getStats']);
 Route::get('/thuetainguyen', [\App\Http\Controllers\ThueTaiNguyenController::class, 'index']);
 Route::get('/thuetainguyen/{mahs}', [\App\Http\Controllers\ThueTaiNguyenController::class, 'show']);
 

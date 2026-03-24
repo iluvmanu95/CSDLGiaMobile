@@ -1,18 +1,43 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { FileText, BarChart2, Activity, Download, Eye } from 'lucide-react-native';
 import { useTheme } from '../context/ThemeContext';
+import Svg, { Circle } from 'react-native-svg';
 
 export const Reports = () => {
     const { isDark } = useTheme();
+    const [stats, setStats] = useState({ total: 0, completed: 0, incomplete: 0 });
+    const [activeFilter, setActiveFilter] = useState('all');
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const response = await fetch(`https://subintegumental-earthly-lon.ngrok-free.dev/api/thuetainguyen/stats?filter=${activeFilter}`);
+                const json = await response.json();
+                if (json.success) {
+                    setStats(json.data);
+                }
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        };
+        fetchStats();
+    }, [activeFilter]);
+
+    const completedPercentage = stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
+
+    const radius = 80;
+    const strokeWidth = 24;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDashoffset = circumference - (completedPercentage / 100) * circumference;
 
     return (
         <View style={styles.container}>
             {/* Header Summary */}
             <View style={styles.headerSection}>
-                <Text style={[styles.title, isDark && styles.textDark]}>Performance Summary</Text>
+                <Text style={[styles.title, isDark && styles.textDark]}>Thống kê</Text>
                 <Text style={[styles.subtitle, isDark && styles.textMutedDark]}>
-                    Your data overview for the current billing cycle and engagement metrics.
+                    Tổng hợp hồ sơ
                 </Text>
             </View>
 
@@ -23,17 +48,35 @@ export const Reports = () => {
                 style={styles.filterScroll}
                 contentContainerStyle={styles.filterContainer}
             >
-                <TouchableOpacity style={styles.filterPillActive}>
-                    <Text style={styles.filterPillTextActive}>THIS WEEK</Text>
+                <TouchableOpacity 
+                    onPress={() => setActiveFilter('all')}
+                    style={activeFilter === 'all' ? styles.filterPillActive : [styles.filterPill, isDark && styles.filterPillDark]}
+                >
+                    <Text style={activeFilter === 'all' ? styles.filterPillTextActive : [styles.filterPillText, isDark && styles.textMutedDark]}>TẤT CẢ</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterPill, isDark && styles.filterPillDark]}>
-                    <Text style={[styles.filterPillText, isDark && styles.textMutedDark]}>THIS MONTH</Text>
+                <TouchableOpacity 
+                    onPress={() => setActiveFilter('week')}
+                    style={activeFilter === 'week' ? styles.filterPillActive : [styles.filterPill, isDark && styles.filterPillDark]}
+                >
+                    <Text style={activeFilter === 'week' ? styles.filterPillTextActive : [styles.filterPillText, isDark && styles.textMutedDark]}>THEO TUẦN</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterPill, isDark && styles.filterPillDark]}>
-                    <Text style={[styles.filterPillText, isDark && styles.textMutedDark]}>THIS QUARTER</Text>
+                <TouchableOpacity 
+                    onPress={() => setActiveFilter('month')}
+                    style={activeFilter === 'month' ? styles.filterPillActive : [styles.filterPill, isDark && styles.filterPillDark]}
+                >
+                    <Text style={activeFilter === 'month' ? styles.filterPillTextActive : [styles.filterPillText, isDark && styles.textMutedDark]}>THEO THÁNG</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterPill, isDark && styles.filterPillDark]}>
-                    <Text style={[styles.filterPillText, isDark && styles.textMutedDark]}>THIS YEAR</Text>
+                <TouchableOpacity 
+                    onPress={() => setActiveFilter('quarter')}
+                    style={activeFilter === 'quarter' ? styles.filterPillActive : [styles.filterPill, isDark && styles.filterPillDark]}
+                >
+                    <Text style={activeFilter === 'quarter' ? styles.filterPillTextActive : [styles.filterPillText, isDark && styles.textMutedDark]}>THEO QUÝ</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    onPress={() => setActiveFilter('year')}
+                    style={activeFilter === 'year' ? styles.filterPillActive : [styles.filterPill, isDark && styles.filterPillDark]}
+                >
+                    <Text style={activeFilter === 'year' ? styles.filterPillTextActive : [styles.filterPillText, isDark && styles.textMutedDark]}>THEO NĂM</Text>
                 </TouchableOpacity>
             </ScrollView>
 
@@ -41,18 +84,44 @@ export const Reports = () => {
             <View style={[styles.card, isDark && styles.cardDark]}>
                 <View style={styles.cardHeader}>
                     <View>
-                        <Text style={[styles.cardTitle, isDark && styles.textDark]}>Overall Performance</Text>
-                        <Text style={[styles.cardSubtitle, isDark && styles.textMutedDark]}>AGGREGATE SCORING</Text>
+                        <Text style={[styles.cardTitle, isDark && styles.textDark]}>Biểu đồ hồ sơ Thuế tài nguyên</Text>
+                        <Text style={[styles.cardSubtitle, isDark && styles.textMutedDark]}>Tổng hợp hồ sơ</Text>
                     </View>
                     <View style={styles.badge}>
-                        <Text style={styles.badgeText}>+12.4%</Text>
+                        <Text style={styles.badgeText}>+{completedPercentage}%</Text>
                     </View>
                 </View>
 
                 <View style={styles.chartContainer}>
-                    <View style={[styles.donutChart, isDark && styles.donutChartDark]}>
-                        <Text style={[styles.donutValue, isDark && styles.textDark]}>88%</Text>
-                        <Text style={[styles.donutLabel, isDark && styles.textMutedDark]}>HEALTHY</Text>
+                    <View style={styles.svgWrapper}>
+                        <Svg height="200" width="200" viewBox="0 0 200 200">
+                            {/* Background Circle */}
+                            <Circle
+                                cx="100"
+                                cy="100"
+                                r={radius}
+                                stroke={isDark ? "#334155" : "#e2e8f0"}
+                                strokeWidth={strokeWidth}
+                                fill="transparent"
+                            />
+                            {/* Progress Circle */}
+                            <Circle
+                                cx="100"
+                                cy="100"
+                                r={radius}
+                                stroke={isDark ? "#c1c1fc" : "#222353"}
+                                strokeWidth={strokeWidth}
+                                strokeDasharray={circumference}
+                                strokeDashoffset={strokeDashoffset}
+                                strokeLinecap="round"
+                                fill="transparent"
+                                transform="rotate(-90 100 100)"
+                            />
+                        </Svg>
+                        <View style={styles.donutContent}>
+                            <Text style={[styles.donutValue, isDark && styles.textDark]}>{completedPercentage}%</Text>
+                            <Text style={[styles.donutLabel, isDark && styles.textMutedDark]}>HOÀN THÀNH</Text>
+                        </View>
                     </View>
                 </View>
 
@@ -60,23 +129,23 @@ export const Reports = () => {
                     <View style={styles.statItem}>
                         <View style={styles.statLabelContainer}>
                             <View style={[styles.dot, { backgroundColor: '#222353' }]} />
-                            <Text style={[styles.statLabel, isDark && styles.textMutedDark]}>SALES</Text>
+                            <Text style={[styles.statLabel, isDark && styles.textMutedDark]}>TỔNG CỘNG</Text>
                         </View>
-                        <Text style={[styles.statValue, isDark && styles.textDark]}>45%</Text>
+                        <Text style={[styles.statValue, isDark && styles.textDark]}>{stats.total}</Text>
                     </View>
                     <View style={styles.statItem}>
                         <View style={styles.statLabelContainer}>
                             <View style={[styles.dot, { backgroundColor: '#5a5b82' }]} />
-                            <Text style={[styles.statLabel, isDark && styles.textMutedDark]}>MKTG</Text>
+                            <Text style={[styles.statLabel, isDark && styles.textMutedDark]}>ĐÃ HOÀN THÀNH</Text>
                         </View>
-                        <Text style={[styles.statValue, isDark && styles.textDark]}>30%</Text>
+                        <Text style={[styles.statValue, isDark && styles.textDark]}>{stats.completed}</Text>
                     </View>
                     <View style={styles.statItem}>
                         <View style={styles.statLabelContainer}>
                             <View style={[styles.dot, { backgroundColor: '#c1c1fc' }]} />
-                            <Text style={[styles.statLabel, isDark && styles.textMutedDark]}>SUPP</Text>
+                            <Text style={[styles.statLabel, isDark && styles.textMutedDark]}>CHƯA HOÀN THÀNH</Text>
                         </View>
-                        <Text style={[styles.statValue, isDark && styles.textDark]}>25%</Text>
+                        <Text style={[styles.statValue, isDark && styles.textDark]}>{stats.incomplete}</Text>
                     </View>
                 </View>
             </View>
@@ -281,6 +350,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 16,
+    },
+    svgWrapper: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+    },
+    donutContent: {
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     donutChart: {
         width: 192,
