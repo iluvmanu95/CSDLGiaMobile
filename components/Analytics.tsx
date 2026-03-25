@@ -274,7 +274,7 @@ export const Analytics = () => {
                                         </View>
                                         <View style={styles.infoItem}>
                                             <Building2 size={14} color="#64748b" />
-                                            <Text style={styles.infoLabel}>CQ Ban hành:</Text>
+                                            <Text style={styles.infoLabel}>Nội dung:</Text>
                                             <Text style={[styles.infoValue, isDark && styles.textDark]}>{selectedRecord.header.cqbh}</Text>
                                         </View>
                                     </View>
