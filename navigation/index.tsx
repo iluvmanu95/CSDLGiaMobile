@@ -14,6 +14,7 @@ import { Reports } from '../components/Reports';
 import { Analytics } from '../components/Analytics';
 import { Notifications } from '../components/Notifications';
 import { styles } from '../contains';
+import { API_BASE_URL } from '../config';
 
 const TAB_TITLES: { [key: string]: string } = {
     dashboard: 'Trang chủ',
@@ -156,7 +157,7 @@ export default function AppContent() {
 
     const fetchUser = async (username: string) => {
         try {
-            const response = await fetch(`https://subintegumental-earthly-lon.ngrok-free.dev/api/getUsers?username=${username}`);
+            const response = await fetch(`${API_BASE_URL}/getUsers?username=${username}`);
             const json = await response.json();
             if (json.success) {
                 setUser(json.data);
