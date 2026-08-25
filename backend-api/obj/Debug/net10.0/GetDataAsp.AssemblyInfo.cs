@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GetDataAsp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+550e1995e570f26b2e52f35f44523ade8e8c7869")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+471e881bdcb9790e1d85d7cd9e31b51724f75e01")]
 [assembly: System.Reflection.AssemblyProductAttribute("GetDataAsp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GetDataAsp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

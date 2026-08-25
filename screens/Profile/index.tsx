@@ -60,14 +60,14 @@ export const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
             </View>
 
             {/* Actions */}
-            <View style={styles.headerActions}>
+            {/* <View style={styles.headerActions}>
               <TouchableOpacity style={[styles.editButton, isDark && styles.editButtonDark]}>
                 <Text style={[styles.editButtonText, isDark && styles.editButtonTextDark]}>Chỉnh sửa hồ sơ</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.shareButton, isDark && styles.shareButtonDark]}>
                 <Share2 size={20} color={isDark ? "#ffffff" : "#222353"} />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
 
           {/* Identity */}

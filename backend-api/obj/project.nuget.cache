@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Va2aBMATc20=",
+  "dgSpecHash": "v+x+V7FkYKQ=",
   "success": true,
-  "projectFilePath": "d:\\Vhost\\Mobile\\CSDLGiaMobile\\backend-api\\getdataasp\\GetDataAsp.csproj",
+  "projectFilePath": "D:\\Vhost\\Mobile\\CSDLGiaMobile\\backend-api\\GetDataAsp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.50.0\\azure.core.1.50.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.17.1\\azure.identity.1.17.1.nupkg.sha512",

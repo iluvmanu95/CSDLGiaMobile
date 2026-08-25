@@ -16,20 +16,6 @@ const NOTIFICATIONS_DATA = [
         time: '10 phút trước',
         type: 'info'
     },
-    {
-        id: '2',
-        title: 'Hồ sơ mới',
-        message: 'Bạn có một hồ sơ Thuế tài nguyên mới cần phê duyệt.',
-        time: '1 giờ trước',
-        type: 'alert'
-    },
-    {
-        id: '3',
-        title: 'Báo cáo hàng tuần',
-        message: 'Báo cáo hiệu suất của bạn cho tuần này đã sẵn sàng để xem.',
-        time: '5 giờ trước',
-        type: 'info'
-    }
 ];
 
 export const Notifications: React.FC<NotificationsProps> = ({ onBack }) => {
