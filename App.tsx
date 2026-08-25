@@ -1,16 +1,13 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ThemeProvider } from './context/ThemeContext';
+import { AppStoreProvider } from './store';
 import AppContent from './navigation';
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <ThemeProvider>
+      <AppStoreProvider>
         <AppContent />
-      </ThemeProvider>
+      </AppStoreProvider>
     </SafeAreaProvider>
   );
 }
-
-
-

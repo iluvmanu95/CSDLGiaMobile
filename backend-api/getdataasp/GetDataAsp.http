@@ -1,0 +1,6 @@
+@GetDataAsp_HostAddress = http://localhost:5118
+
+GET {{GetDataAsp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
