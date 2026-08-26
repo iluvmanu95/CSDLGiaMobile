@@ -57,11 +57,10 @@ export function Login({ onLogin }: LoginProps) {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
@@ -161,7 +160,6 @@ export function Login({ onLogin }: LoginProps) {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
   );
 }
 export default Login;
