@@ -22,8 +22,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onLog
 
   const navItems = [
     { id: 'dashboard', title: 'Trang chủ', icon: LayoutDashboard },
-    { id: 'analytics', title: 'Báo cáo thống kê', icon: LineChart },
-    { id: 'reports', title: 'Biểu đồ thống kê', icon: BarChart2 },
+    { id: 'reports', title: 'Báo cáo thống kê', icon: BarChart2 },
+    //{ id: 'analytics', title: 'Phân tích', icon: LineChart },
     { id: 'profile', title: 'Trang cá nhân', icon: User },
     { id: 'settings', title: 'Cài đặt', icon: Settings },
   ];

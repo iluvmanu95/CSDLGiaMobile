@@ -27,6 +27,12 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 // 3. Services Layer - Business Logic
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IDanhMucDonViService, DanhMucDonViService>();
+builder.Services.AddScoped<IDanhMucKinhDoanhService, DanhMucKinhDoanhService>();
+builder.Services.AddScoped<IDanhMucDonViTinhService, DanhMucDonViTinhService>();
+builder.Services.AddScoped<IDinhGiaService, DinhGiaService>();
+builder.Services.AddScoped<IKeKhaiDangKyGiaService, KeKhaiDangKyGiaService>();
+builder.Services.AddScoped<IGiaThiTruongService, GiaThiTruongService>();
+builder.Services.AddScoped<IThamDinhGiaService, ThamDinhGiaService>();
 
 // Configure CORS for Mobile / Web clients
 builder.Services.AddCors(options =>

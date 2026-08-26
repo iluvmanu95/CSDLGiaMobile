@@ -10,8 +10,8 @@ import { TabNavigator } from '../TabNavigator';
 
 const TAB_TITLES: { [key: string]: string } = {
     dashboard: 'Trang chủ',
-    analytics: 'Danh mục đơn vị',
-    reports: 'Thống kê đơn vị',
+    reports: 'Báo cáo thống kê',
+    analytics: 'Phân tích',
     profile: 'Trang cá nhân',
     notifications: 'Thông báo',
     settings: 'Cài đặt',

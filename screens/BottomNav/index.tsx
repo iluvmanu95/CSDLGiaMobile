@@ -36,12 +36,12 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
         <BarChart2 size={24} color={getIconColor('reports')} />
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => setActiveTab('analytics')}
         style={[styles.navItem, activeTab === 'analytics' && (isDark ? styles.activeNavItemDark : styles.activeNavItem)]}
       >
         <LineChart size={24} color={getIconColor('analytics')} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         onPress={() => setActiveTab('profile')}
