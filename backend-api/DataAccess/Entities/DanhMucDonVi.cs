@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GetDataAsp.DataAccess.Entities
 {
-    [Table("DanhMucDonVi")]
+    [Table("DanhMucDonVis")]
     public class DanhMucDonVi
     {
         [Key]

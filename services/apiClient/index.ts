@@ -47,7 +47,28 @@ class ApiClient {
 
         try {
             const response = await fetch(url, config);
-            const data = await response.json();
+            const rawData = await response.json();
+            
+            // Helper to recursively normalize PascalCase keys to camelCase
+            const normalizeKeys = (obj: any): any => {
+                if (Array.isArray(obj)) {
+                    return obj.map(normalizeKeys);
+                } else if (obj !== null && typeof obj === 'object') {
+                    const normalized: any = {};
+                    Object.keys(obj).forEach((key) => {
+                        const camelKey = key.charAt(0).toLowerCase() + key.slice(1);
+                        normalized[camelKey] = normalizeKeys(obj[key]);
+                        // also retain original key for flexibility
+                        if (camelKey !== key) {
+                            normalized[key] = normalized[camelKey];
+                        }
+                    });
+                    return normalized;
+                }
+                return obj;
+            };
+
+            const data = normalizeKeys(rawData);
             return data as T;
         } catch (error) {
             console.error(`[API Error] ${options.method || 'GET'} ${url}:`, error);

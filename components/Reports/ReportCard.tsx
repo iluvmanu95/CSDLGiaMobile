@@ -26,10 +26,10 @@ export const ReportCard: React.FC<ReportCardProps> = ({
             <View
                 style={[
                     styles.iconWrapper,
-                    { backgroundColor: isDark ? '#334155' : report.bgColor }
+                    { backgroundColor: isDark ? `${report.color}20` : report.bgColor } // hoặc giữ nguyên nền tối nhẹ kết hợp opacity của màu icon
                 ]}
             >
-                <IconComponent size={22} color={isDark ? '#93c5fd' : report.color} />
+                <IconComponent size={22} color={report.color} />
             </View>
 
             <View style={styles.reportContent}>

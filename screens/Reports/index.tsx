@@ -7,6 +7,7 @@ import { ReportOption, PeriodType } from './types';
 import { REPORT_OPTIONS } from './constants';
 import { ReportCard, ReportFilterModal } from '../../components/Reports';
 import { fetchAndBuildBusinessTree } from '../../helper';
+import { ReportDetail } from './ReportDetail';
 
 export const Reports = () => {
     const { isDark } = useTheme();
@@ -14,6 +15,20 @@ export const Reports = () => {
     // Modal & Selection state
     const [selectedReport, setSelectedReport] = useState<ReportOption | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
+
+    // Active detail view state
+    const [activeDetailReport, setActiveDetailReport] = useState<ReportOption | null>(null);
+    const [detailFilterParams, setDetailFilterParams] = useState<{
+        periodType: PeriodType;
+        filterSummary: string;
+        businessName?: string;
+        selectedBusiness?: string;
+        selectedMonth?: number;
+        selectedQuarter?: number;
+        selectedYear?: number;
+        fromDate?: string;
+        toDate?: string;
+    } | null>(null);
 
     // Business category state for DG / KKG
     const [businessList, setBusinessList] = useState<DanhMucKinhDoanhItem[]>([]);
@@ -83,16 +98,49 @@ export const Reports = () => {
                 const found = businessList.find(b => b.id === selectedBusiness || b.maNghe === selectedBusiness);
                 businessName = found ? found.tenNghe || found.maNghe || '' : selectedBusiness;
             } else {
-                businessName = 'Tất cả lĩnh vực / ngành nghề';
+                businessName = 'Tất cả ngành nghề / lĩnh vực';
             }
         }
 
-        Alert.alert(
-            'Thông tin tra cứu',
-            `Báo cáo: ${selectedReport.title}\nThời gian: ${filterSummary}${businessName ? `\nNgành/Nghề: ${businessName}` : ''}`,
-            [{ text: 'Đóng', style: 'cancel' }]
-        );
+        setActiveDetailReport(selectedReport);
+        setDetailFilterParams({
+            periodType,
+            filterSummary,
+            businessName,
+            selectedBusiness,
+            selectedMonth,
+            selectedQuarter,
+            selectedYear,
+            fromDate,
+            toDate,
+        });
+
+        setModalVisible(false);
     };
+
+    const handleBackFromDetail = () => {
+        setActiveDetailReport(null);
+        setDetailFilterParams(null);
+    };
+
+    // If a report detail is active, render ReportDetail screen
+    if (activeDetailReport && detailFilterParams) {
+        return (
+            <ReportDetail
+                report={activeDetailReport}
+                periodType={detailFilterParams.periodType}
+                filterSummary={detailFilterParams.filterSummary}
+                businessName={detailFilterParams.businessName}
+                selectedBusiness={detailFilterParams.selectedBusiness}
+                selectedMonth={detailFilterParams.selectedMonth}
+                selectedQuarter={detailFilterParams.selectedQuarter}
+                selectedYear={detailFilterParams.selectedYear}
+                fromDate={detailFilterParams.fromDate}
+                toDate={detailFilterParams.toDate}
+                onBack={handleBackFromDetail}
+            />
+        );
+    }
 
     return (
         <View style={styles.container}>
@@ -104,7 +152,7 @@ export const Reports = () => {
                 </Text>
             </View>
 
-            {/* List of 6 Reports */}
+            {/* List of 4 Reports */}
             <View style={styles.reportList}>
                 {REPORT_OPTIONS.map((item) => (
                     <ReportCard

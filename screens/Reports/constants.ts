@@ -9,15 +9,15 @@ import {
 import { ReportOption } from './types';
 
 export const REPORT_OPTIONS: ReportOption[] = [
-    {
-        id: 'stc_ubnd',
-        title: 'Báo cáo phục vụ lãnh đạo STC - UBND tỉnh',
-        description: 'Tổng hợp số liệu điều hành và báo cáo định kỳ cho lãnh đạo',
-        icon: Landmark,
-        color: '#2563eb',
-        bgColor: '#eff6ff',
-        type: 'stc_ubnd'
-    },
+    // {
+    //     id: 'stc_ubnd',
+    //     title: 'Báo cáo phục vụ lãnh đạo STC - UBND tỉnh',
+    //     description: 'Tổng hợp số liệu điều hành và báo cáo định kỳ cho lãnh đạo',
+    //     icon: Landmark,
+    //     color: '#2563eb',
+    //     bgColor: '#eff6ff',
+    //     type: 'stc_ubnd'
+    // },
     {
         id: 'dinh_gia',
         title: 'Báo cáo Tổng hợp và phân tích giá hàng hóa định giá',
@@ -56,13 +56,13 @@ export const REPORT_OPTIONS: ReportOption[] = [
         bgColor: '#fdf2f8',
         type: 'thi_truong'
     },
-    {
-        id: 'vlxd',
-        title: 'Khai thác tổng hợp giá Vật liệu xây dựng',
-        description: 'Tra cứu, thống kê và phân tích công bố giá vật liệu xây dựng',
-        icon: HardHat,
-        color: '#ea580c',
-        bgColor: '#fff7ed',
-        type: 'vlxd'
-    }
+    // {
+    //     id: 'vlxd',
+    //     title: 'Khai thác tổng hợp giá Vật liệu xây dựng',
+    //     description: 'Tra cứu, thống kê và phân tích công bố giá vật liệu xây dựng',
+    //     icon: HardHat,
+    //     color: '#ea580c',
+    //     bgColor: '#fff7ed',
+    //     type: 'vlxd'
+    // }
 ];
