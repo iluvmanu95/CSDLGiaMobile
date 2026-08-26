@@ -191,6 +191,8 @@ export const capitalizeWords = (str: string | null | undefined): string => {
     .join(' ');
 };
 
+export * from './businessCategory';
+
 export default {
   formatDateFullVN,
   formatDate,
