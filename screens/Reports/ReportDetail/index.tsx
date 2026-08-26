@@ -19,7 +19,9 @@ import {
     dinhGiaService,
     keKhaiDangKyGiaService,
     thamDinhGiaService,
-    giaThiTruongService
+    giaThiTruongService,
+    danhMucDonViService,
+    danhMucKinhDoanhService
 } from '../../../services';
 
 // Subcomponents from global components folder
@@ -294,9 +296,50 @@ export const ReportDetail: React.FC<ReportDetailProps> = ({
             }
 
             // 6. Setup Bar Chart Data (Comparison by actual DonVi / Ngành nghề)
+            // Fetch names dictionary from DanhMucDonVi & DanhMucKinhDoanh
+            let donViMap: Record<string, string> = {};
+            let kinhDoanhMap: Record<string, string> = {};
+
+            try {
+                const [donViRes, kinhDoanhRes] = await Promise.all([
+                    danhMucDonViService.getAll().catch(() => null),
+                    danhMucKinhDoanhService.getAll().catch(() => null)
+                ]);
+
+                if (donViRes && donViRes.success && Array.isArray(donViRes.data)) {
+                    donViRes.data.forEach((u: any) => {
+                        if (u.id) donViMap[u.id.toLowerCase()] = u.tenDonVi || u.tenDonViBaoCao || u.name || '';
+                        if (u.maDonVi) donViMap[u.maDonVi.toLowerCase()] = u.tenDonVi || '';
+                    });
+                }
+
+                if (kinhDoanhRes && kinhDoanhRes.success && Array.isArray(kinhDoanhRes.data)) {
+                    kinhDoanhRes.data.forEach((k: any) => {
+                        if (k.maNghe) kinhDoanhMap[k.maNghe.toLowerCase()] = k.tenNghe || '';
+                    });
+                }
+            } catch (err) {
+                console.warn('Could not fetch unit/category dictionary for chart names:', err);
+            }
+
             const unitCounts: Record<string, number> = {};
             activeList.forEach((item) => {
-                const label = item.maNghe || (item.donViQuanLyId ? `Đơn vị ${item.donViQuanLyId.slice(0, 6)}...` : 'Cơ quan quản lý');
+                let label = '';
+                const donViId = (item.donViQuanLyId || item.DonViQuanLyId || '').toString().toLowerCase();
+                const maNghe = (item.maNghe || item.MaNghe || '').toString().toLowerCase();
+
+                if (donViId && donViMap[donViId]) {
+                    label = donViMap[donViId];
+                } else if (maNghe && kinhDoanhMap[maNghe]) {
+                    label = kinhDoanhMap[maNghe];
+                } else if (item.maNghe) {
+                    label = item.maNghe;
+                } else if (item.donViQuanLyId) {
+                    label = `Đơn vị ${item.donViQuanLyId.slice(0, 6)}...`;
+                } else {
+                    label = 'Cơ quan quản lý';
+                }
+
                 unitCounts[label] = (unitCounts[label] || 0) + 1;
             });
 
@@ -304,8 +347,8 @@ export const ReportDetail: React.FC<ReportDetailProps> = ({
             if (barEntries.length > 0) {
                 const colors = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
                 setBarData(
-                    barEntries.slice(0, 4).map(([label, value], idx) => ({
-                        label: label.length > 14 ? label.slice(0, 12) + '..' : label,
+                    barEntries.slice(0, 5).map(([label, value], idx) => ({
+                        label: label.length > 18 ? label.slice(0, 16) + '..' : label,
                         value,
                         color: colors[idx % colors.length]
                     }))

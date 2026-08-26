@@ -130,7 +130,7 @@ export const BarChart: React.FC<BarChartProps> = ({
                                 fontWeight="600"
                                 textAnchor="middle"
                             >
-                                {item.label}
+                                {item.label.length > 14 ? item.label.slice(0, 12) + '…' : item.label}
                             </SvgText>
                         </React.Fragment>
                     );
