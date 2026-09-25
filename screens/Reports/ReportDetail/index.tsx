@@ -13,7 +13,7 @@ import {
     Calendar
 } from 'lucide-react-native';
 import styles from './style';
-import { useTheme } from '../../../store';
+import { useTheme, useAuth } from '../../../store';
 import { ReportOption, PeriodType } from '../types';
 import {
     dinhGiaService,
@@ -69,6 +69,7 @@ export const ReportDetail: React.FC<ReportDetailProps> = ({
     onBack,
 }) => {
     const { isDark } = useTheme();
+    const { user } = useAuth();
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [exportModalVisible, setExportModalVisible] = useState(false);
@@ -82,6 +83,10 @@ export const ReportDetail: React.FC<ReportDetailProps> = ({
     const [insightText, setInsightText] = useState<string>('');
     const [insightHighlights, setInsightHighlights] = useState<string[]>([]);
 
+    // Check if super admin vs Nhà nước
+    const isSuperAdmin = user?.SSA === true || user?.Level?.toString().toLowerCase() === 'super admin';
+    const userDonViId = isSuperAdmin ? undefined : (user?.DanhMucDonViId || user?.danhMucDonViId || user?.donViQuanLyId);
+
     const fetchReportData = async () => {
         setLoading(true);
         try {
@@ -89,22 +94,33 @@ export const ReportDetail: React.FC<ReportDetailProps> = ({
 
             // 1. Fetch real records depending on type
             if (report.type === 'dinh_gia') {
-                const res = await dinhGiaService.getAll({ maNghe: selectedBusiness });
+                const res = await dinhGiaService.getAll({ 
+                    maNghe: selectedBusiness,
+                    donViQuanLyId: userDonViId 
+                });
                 if (res && res.success && Array.isArray(res.data)) {
                     rawList = res.data;
                 }
             } else if (report.type === 'ke_khai') {
-                const res = await keKhaiDangKyGiaService.getAll({ maNghe: selectedBusiness });
+                const res = await keKhaiDangKyGiaService.getAll({ 
+                    maNghe: selectedBusiness,
+                    donViQuanLyId: userDonViId 
+                });
                 if (res && res.success && Array.isArray(res.data)) {
                     rawList = res.data;
                 }
             } else if (report.type === 'tham_dinh') {
-                const res = await thamDinhGiaService.getAll();
+                const res = await thamDinhGiaService.getAll({
+                    donViQuanLyId: userDonViId
+                });
                 if (res && res.success && Array.isArray(res.data)) {
                     rawList = res.data;
                 }
             } else if (report.type === 'thi_truong') {
-                const res = await giaThiTruongService.getAll({ nam: selectedYear?.toString() });
+                const res = await giaThiTruongService.getAll({ 
+                    nam: selectedYear?.toString(),
+                    donViQuanLyId: userDonViId 
+                });
                 if (res && res.success && Array.isArray(res.data)) {
                     rawList = res.data;
                 }

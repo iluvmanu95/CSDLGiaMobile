@@ -15,9 +15,9 @@ namespace GetDataAsp.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string? maNganh, [FromQuery] string? maNghe, [FromQuery] string? loaiGia)
+        public async Task<IActionResult> GetAll([FromQuery] string? maNganh, [FromQuery] string? maNghe, [FromQuery] string? loaiGia, [FromQuery] string? donViQuanLyId)
         {
-            var result = await _service.GetAllAsync(maNganh, maNghe, loaiGia);
+            var result = await _service.GetAllAsync(maNganh, maNghe, loaiGia, donViQuanLyId);
             if (!result.Success) return StatusCode(500, result);
             return Ok(result);
         }

@@ -57,6 +57,21 @@ namespace GetDataAsp.Services.Interfaces
                 };
             }
 
+            // Kiểm tra phân quyền: Chỉ cho phép tài khoản SSA (Super Admin) hoặc cấp Nhà nước đăng nhập
+            bool isSuperAdmin = user.SSA == true ||
+                                string.Equals(user.Level, "Super Admin", StringComparison.OrdinalIgnoreCase);
+
+            bool isNhaNuoc = string.Equals(user.Level, "Nhà nước", StringComparison.OrdinalIgnoreCase);
+
+            if (!isSuperAdmin && !isNhaNuoc)
+            {
+                return new ApiResponse<LoginResponse>
+                {
+                    Success = false,
+                    Message = "Tài khoản của bạn không có quyền truy cập vào ứng dụng"
+                };
+            }
+
             // Tạo token giả lập tương tự PHP
             byte[] randomBytes = new byte[32];
             using (var rng = RandomNumberGenerator.Create())

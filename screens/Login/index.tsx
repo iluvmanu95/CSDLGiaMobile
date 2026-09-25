@@ -64,11 +64,11 @@ export function Login({ onLogin }: LoginProps) {
 
     setIsLoading(true);
     try {
-      const success = await login(username, password);
-      if (success) {
+      const result = await login(username, password);
+      if (result.success) {
         if (onLogin) onLogin(username);
       } else {
-        Alert.alert('Đăng nhập thất bại', 'Tên đăng nhập hoặc mật khẩu không đúng');
+        Alert.alert('Đăng nhập không thành công', result.message || 'Tên đăng nhập hoặc mật khẩu không đúng');
       }
     } catch (error: any) {
       Alert.alert('Lỗi kết nối', error?.message || 'Không thể kết nối tới máy chủ API.');

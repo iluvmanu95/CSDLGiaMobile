@@ -78,15 +78,31 @@ export const Dashboard: React.FC<{ user?: any }> = ({ user: propUser }) => {
     return () => clearInterval(timer);
   }, []);
 
+  // Helper to check if user is super admin
+  const isSuperAdmin = useMemo(() => {
+    if (!user) return false;
+    return (
+      user.SSA === true ||
+      user.Level?.toString().toLowerCase() === 'super admin'
+    );
+  }, [user]);
+
+  // DonViQuanLyId for filtering (if user is Nhà nước)
+  const userDonViId = useMemo(() => {
+    if (isSuperAdmin) return undefined;
+    return user?.danhMucDonViId || user?.DanhMucDonViId || user?.donViQuanLyId || user?.DonViQuanLyId;
+  }, [user, isSuperAdmin]);
+
   // Fetch all modules data
   const fetchAllData = async () => {
     setLoading(true);
     try {
+      const params = userDonViId ? { donViQuanLyId: userDonViId } : undefined;
       const [dgRes, kkRes, tdRes, gttRes] = await Promise.allSettled([
-        dinhGiaService.getAll(),
-        keKhaiDangKyGiaService.getAll(),
-        thamDinhGiaService.getAll(),
-        giaThiTruongService.getAll(),
+        dinhGiaService.getAll(params),
+        keKhaiDangKyGiaService.getAll(params),
+        thamDinhGiaService.getAll(params),
+        giaThiTruongService.getAll(params),
       ]);
 
       if (dgRes.status === 'fulfilled' && dgRes.value?.success && Array.isArray(dgRes.value.data)) {
@@ -110,7 +126,7 @@ export const Dashboard: React.FC<{ user?: any }> = ({ user: propUser }) => {
 
   useEffect(() => {
     fetchAllData();
-  }, []);
+  }, [userDonViId, isSuperAdmin]);
 
   // Helper to extract year from record
   const getRecordYear = (item: any): number => {

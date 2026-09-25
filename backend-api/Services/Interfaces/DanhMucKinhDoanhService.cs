@@ -7,7 +7,7 @@ namespace GetDataAsp.Services.Interfaces
 {
     public interface IDanhMucKinhDoanhService
     {
-        Task<ApiResponse<IEnumerable<DanhMucKinhDoanh>>> GetAllAsync(string? maNganh = null, string? maNghe = null, string? loaiGia = null);
+        Task<ApiResponse<IEnumerable<DanhMucKinhDoanh>>> GetAllAsync(string? maNganh = null, string? maNghe = null, string? loaiGia = null, string? donViQuanLyId = null);
         Task<ApiResponse<DanhMucKinhDoanh>> GetByIdAsync(Guid id);
     }
 
@@ -20,7 +20,7 @@ namespace GetDataAsp.Services.Interfaces
             _repo = repo;
         }
 
-        public async Task<ApiResponse<IEnumerable<DanhMucKinhDoanh>>> GetAllAsync(string? maNganh = null, string? maNghe = null, string? loaiGia = null)
+        public async Task<ApiResponse<IEnumerable<DanhMucKinhDoanh>>> GetAllAsync(string? maNganh = null, string? maNghe = null, string? loaiGia = null, string? donViQuanLyId = null)
         {
             try
             {
@@ -31,6 +31,8 @@ namespace GetDataAsp.Services.Interfaces
                     query = query.Where(x => x.MaNganh == maNganh);
                 if (!string.IsNullOrEmpty(maNghe))
                     query = query.Where(x => x.MaNghe == maNghe);
+                if (!string.IsNullOrEmpty(donViQuanLyId))
+                    query = query.Where(x => x.DonViQuanLyId == donViQuanLyId);
 
                 var list = await query
                     .OrderBy(x => x.SttsapXep)

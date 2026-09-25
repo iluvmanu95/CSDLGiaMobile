@@ -36,7 +36,7 @@ export interface DanhMucKinhDoanhDetailResponse {
 }
 
 export const danhMucKinhDoanhService = {
-    async getAll(params?: { maNganh?: string; maNghe?: string; loaiGia?: string }): Promise<DanhMucKinhDoanhResponse> {
+    async getAll(params?: { maNganh?: string; maNghe?: string; loaiGia?: string; donViQuanLyId?: string }): Promise<DanhMucKinhDoanhResponse> {
         return apiClient.get<DanhMucKinhDoanhResponse>('/DanhMucKinhDoanh', params);
     },
 

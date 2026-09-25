@@ -14,11 +14,16 @@ export interface User {
     [key: string]: any;
 }
 
+interface AuthResult {
+    success: boolean;
+    message?: string;
+}
+
 interface AuthContextType {
     isAuthenticated: boolean;
     user: User | null;
     isLoading: boolean;
-    login: (username: string, password?: string) => Promise<boolean>;
+    login: (username: string, password?: string) => Promise<AuthResult>;
     logout: () => void;
     setUser: (user: User | null) => void;
 }
@@ -30,7 +35,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const login = async (username: string, password?: string): Promise<boolean> => {
+    const login = async (username: string, password?: string): Promise<AuthResult> => {
         setIsLoading(true);
         try {
             let userData: User | null = null;
@@ -39,7 +44,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 const isSuccess = res?.success ?? res?.Success ?? false;
                 if (!isSuccess) {
                     setIsLoading(false);
-                    return false;
+                    return {
+                        success: false,
+                        message: res?.message || res?.Message || 'Tên đăng nhập hoặc mật khẩu không đúng'
+                    };
                 }
                 const resData = res?.data ?? res?.Data;
                 if (resData?.user || resData?.User) {
@@ -48,8 +56,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     userData = resData;
                 }
             }
-
-            setIsAuthenticated(true);
 
             // Fetch detailed user information if not present
             try {
@@ -67,13 +73,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 userData = { Username: username, Name: username, username, name: username };
             }
 
-            setUser(userData);
+            // Client-side verification for user level: Super Admin hoặc Nhà nước
+            const isSuperAdmin = userData.SSA === true || userData.Level?.toString().toLowerCase() === 'super admin';
+            const isNhaNuoc = userData.Level?.toString().toLowerCase() === 'nhà nước';
 
+            if (!isSuperAdmin && !isNhaNuoc) {
+                setIsLoading(false);
+                return {
+                    success: false,
+                    message: 'Tài khoản của bạn không có quyền truy cập vào ứng dụng'
+                };
+            }
+
+            setIsAuthenticated(true);
+            setUser(userData);
             setIsLoading(false);
-            return true;
-        } catch (error) {
+            return { success: true };
+        } catch (error: any) {
             setIsLoading(false);
-            throw error;
+            return {
+                success: false,
+                message: error?.message || 'Không thể kết nối đến máy chủ'
+            };
         }
     };
 

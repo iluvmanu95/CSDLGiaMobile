@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Alert } from 'react-native';
 import styles from './style';
-import { useTheme } from '../../store';
+import { useTheme, useAuth } from '../../store';
 import { DanhMucKinhDoanhItem } from '../../services';
 import { ReportOption, PeriodType } from './types';
 import { REPORT_OPTIONS } from './constants';
@@ -11,6 +11,11 @@ import { ReportDetail } from './ReportDetail';
 
 export const Reports = () => {
     const { isDark } = useTheme();
+    const { user } = useAuth();
+
+    // Check if user is super admin
+    const isSuperAdmin = user?.SSA === true || user?.Level?.toString().toLowerCase() === 'super admin';
+    const userDonViId = isSuperAdmin ? undefined : (user?.DanhMucDonViId || user?.danhMucDonViId || user?.donViQuanLyId);
 
     // Modal & Selection state
     const [selectedReport, setSelectedReport] = useState<ReportOption | null>(null);
@@ -62,7 +67,7 @@ export const Reports = () => {
         if (report.loaiGia) {
             setLoadingBusiness(true);
             try {
-                const treeList = await fetchAndBuildBusinessTree(report.loaiGia);
+                const treeList = await fetchAndBuildBusinessTree(report.loaiGia, userDonViId);
                 setBusinessList(treeList);
             } catch (error) {
                 console.error('Error fetching DanhMucKinhDoanh:', error);

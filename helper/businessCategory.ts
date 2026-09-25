@@ -27,11 +27,14 @@ const sortByStt = (a: any, b: any) => {
 };
 
 /**
- * Lấy và xây dựng cây phân cấp ngành nghề kinh doanh theo LoaiGia (DG / KKG)
+ * Lấy và xây dựng cây phân cấp ngành nghề kinh doanh theo LoaiGia (DG / KKG) và DonViQuanLyId (nếu không phải SSA)
  */
-export const fetchAndBuildBusinessTree = async (loaiGia: string): Promise<DanhMucKinhDoanhItem[]> => {
+export const fetchAndBuildBusinessTree = async (loaiGia: string, donViQuanLyId?: string): Promise<DanhMucKinhDoanhItem[]> => {
     const targetLoaiGia = loaiGia.toUpperCase();
-    const res = await danhMucKinhDoanhService.getAll({ loaiGia: targetLoaiGia });
+    const res = await danhMucKinhDoanhService.getAll({ 
+        loaiGia: targetLoaiGia,
+        donViQuanLyId: donViQuanLyId
+    });
     const dataList = (res?.data || (res as any)?.Data || []) as any[];
 
     if (!Array.isArray(dataList)) return [];
