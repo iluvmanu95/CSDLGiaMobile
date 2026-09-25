@@ -1,7 +1,7 @@
 import styles from './style';
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
-import { LayoutDashboard, User, Settings, LogOut, LineChart, BarChart2 } from 'lucide-react-native';
+import { LayoutDashboard, User, Settings, LogOut, LineChart, BarChart2, Headphones } from 'lucide-react-native';
 import { useTheme, useAuth } from '../../store';
 import defaultAvatar from '../../assets/avatars/default-user.png';
 
@@ -25,6 +25,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onLog
     { id: 'reports', title: 'Báo cáo thống kê', icon: BarChart2 },
     //{ id: 'analytics', title: 'Phân tích', icon: LineChart },
     { id: 'profile', title: 'Trang cá nhân', icon: User },
+    { id: 'support', title: 'Thông tin hỗ trợ', icon: Headphones },
     { id: 'settings', title: 'Cài đặt', icon: Settings },
   ];
 

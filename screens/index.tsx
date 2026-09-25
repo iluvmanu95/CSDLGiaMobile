@@ -7,6 +7,7 @@ import BottomNav from './BottomNav';
 import Reports from './Reports';
 import Analytics from './Analytics';
 import Notifications from './Notifications';
+import SupportInfo from './SupportInfo';
 
 export {
     Dashboard,
@@ -17,5 +18,7 @@ export {
     BottomNav,
     Reports,
     Analytics,
-    Notifications
+    Notifications,
+    SupportInfo
 };
+

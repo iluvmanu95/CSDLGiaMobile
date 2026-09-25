@@ -6,7 +6,8 @@ import {
     Settings,
     Reports,
     Analytics,
-    Notifications
+    Notifications,
+    SupportInfo
 } from '../../screens';
 import styles from './style';
 
@@ -29,6 +30,8 @@ export const TabNavigator: React.FC<TabNavigatorProps> = ({
                 return <Reports />;
             case 'profile':
                 return <Profile onLogout={onLogout} />;
+            case 'support':
+                return <SupportInfo />;
             case 'settings':
                 return <Settings />;
             case 'analytics':

@@ -13,6 +13,7 @@ const TAB_TITLES: { [key: string]: string } = {
     reports: 'Báo cáo thống kê',
     analytics: 'Phân tích',
     profile: 'Trang cá nhân',
+    support: 'Thông tin hỗ trợ',
     notifications: 'Thông báo',
     settings: 'Cài đặt',
 };
