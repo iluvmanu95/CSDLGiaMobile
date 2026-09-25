@@ -12,10 +12,10 @@ export const SupportInfo: React.FC<{ user?: any }> = ({ user: propUser }) => {
   const [now, setNow] = useState(new Date());
 
   const supportStaff = [
-    { name: 'Hoàng Ngọc Long', phone: '0985.365.683', role: 'Chuyên viên hỗ trợ kỹ thuật' },
-    { name: 'Nguyễn Trần Huynh', phone: '0964 304 891', role: 'Chuyên viên triển khai hệ thống' },
-    { name: 'Trịnh Minh Khải', phone: '0389 095 454', role: 'Chuyên viên cơ sở dữ liệu' },
-    { name: 'Nguyễn Xuân Trường', phone: '0917.737.456', role: 'Chuyên viên phụ trách phần mềm' },
+    { name: 'Nguyễn Xuân Trường', phone: '0917.737.456', role: 'Trường phòng kỹ thuật' },
+    { name: 'Hoàng Ngọc Long', phone: '0985.365.683', role: 'Phó phòng kỹ thuật' },
+    { name: 'Nguyễn Trần Huynh', phone: '0964 304 891', role: 'Chuyên viên hỗ trợ kỹ thuật' },
+    { name: 'Trịnh Minh Khải', phone: '0389 095 454', role: 'Chuyên viên hỗ trợ kỹ thuật' },
   ];
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export const SupportInfo: React.FC<{ user?: any }> = ({ user: propUser }) => {
         <View style={[styles.techLeadCard, isDark && styles.techLeadCardDark]}>
           <View style={styles.techLeadInfo}>
             <Text style={styles.techLeadRole}>Phụ trách khối kỹ thuật</Text>
-            <Text style={[styles.techLeadName, isDark && styles.textDark]}>Phó giám đốc: Trần Ngọc Hiếu</Text>
+            <Text style={[styles.techLeadName, isDark && styles.textDark]}>Giám đốc: Trần Ngọc Hiếu</Text>
             <Text style={[styles.techLeadPhone, isDark && styles.textPrimaryDark]}>Số điện thoại: 096 8206844</Text>
           </View>
           <TouchableOpacity
@@ -113,7 +113,7 @@ export const SupportInfo: React.FC<{ user?: any }> = ({ user: propUser }) => {
 
         {/* Support Staff List */}
         <Text style={[styles.sectionTitle, isDark && styles.textMutedDark]}>
-          Phòng Triển Khai - Hỗ Trợ Trực Tuyến
+          Phòng Triển Khai Bảo Trì- Hỗ Trợ Trực Tuyến
         </Text>
 
         <View style={[styles.staffListContainer, isDark && styles.staffListContainerDark]}>
@@ -127,14 +127,14 @@ export const SupportInfo: React.FC<{ user?: any }> = ({ user: propUser }) => {
               ]}
             >
               <View style={styles.staffLeft}>
-                <View style={[styles.staffAvatarCircle, isDark && styles.staffAvatarCircleDark]}>
+                {/*<View style={[styles.staffAvatarCircle, isDark && styles.staffAvatarCircleDark]}>
                   <Text style={[styles.staffAvatarText, isDark && styles.staffAvatarTextDark]}>
                     {getInitials(staff.name)}
                   </Text>
-                </View>
+                </View>*/}
                 <View style={{ flex: 1 }}>
                   <Text style={[styles.staffName, isDark && styles.textDark]}>{staff.name}</Text>
-                  <Text style={[styles.staffRole, isDark && styles.textMutedDark]}>{staff.role}</Text>
+                  {/*<Text style={[styles.staffRole, isDark && styles.textMutedDark]}>{staff.role}</Text>*/}
                 </View>
               </View>
 
@@ -150,15 +150,6 @@ export const SupportInfo: React.FC<{ user?: any }> = ({ user: propUser }) => {
               </TouchableOpacity>
             </View>
           ))}
-        </View>
-
-        {/* General Hotline */}
-        <View style={[styles.hotlineCard, isDark && styles.hotlineCardDark]}>
-          <Building size={24} color="#059669" />
-          <View style={{ flex: 1 }}>
-            <Text style={styles.hotlineTitle}>Tổng đài dịch vụ khách hàng LifeSoft</Text>
-            <Text style={[styles.hotlineValue, isDark && { color: '#34d399' }]}>1900 6868 (Giờ hành chính)</Text>
-          </View>
         </View>
       </View>
     </ScrollView>
