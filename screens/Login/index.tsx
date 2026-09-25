@@ -1,5 +1,5 @@
 import styles from './style';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -29,11 +29,32 @@ export function Login({ onLogin }: LoginProps) {
   const { login } = useAuth();
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      () => {
+        setTimeout(() => {
+          scrollViewRef.current?.scrollToEnd({ animated: true });
+        }, 100);
+      }
+    );
+    return () => {
+      showSub.remove();
+    };
+  }, []);
+
+  const handleFocus = () => {
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true });
+    }, 150);
+  };
 
   const handlePressLogin = async () => {
     if (!username || !password) {
@@ -59,18 +80,24 @@ export function Login({ onLogin }: LoginProps) {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
     >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView
+          ref={scrollViewRef}
           contentContainerStyle={{
             flexGrow: 1,
             justifyContent: 'center',
             alignItems: 'center',
             padding: 24,
+            paddingVertical: 32,
+            paddingBottom: 60,
             backgroundColor: isDark ? '#0f172a' : '#f8f9fa'
           }}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
+          bounces={false}
         >
           {/* Decorative Background Elements */}
           <View style={styles.bgDecor1} />
@@ -101,6 +128,7 @@ export function Login({ onLogin }: LoginProps) {
                     placeholderTextColor={isDark ? "#94a3b8" : "#9ca3af"}
                     value={username}
                     onChangeText={setUsername}
+                    onFocus={handleFocus}
                     autoCapitalize="none"
                   />
                 </View>
@@ -119,6 +147,7 @@ export function Login({ onLogin }: LoginProps) {
                       placeholderTextColor={isDark ? "#94a3b8" : "#9ca3af"}
                       value={password}
                       onChangeText={setPassword}
+                      onFocus={handleFocus}
                       secureTextEntry={!isPasswordVisible}
                     />
                     <Pressable
@@ -148,18 +177,10 @@ export function Login({ onLogin }: LoginProps) {
                 </TouchableOpacity>
               </View>
             </View>
-
-            {/* <View style={styles.footer}>
-              <Text style={[styles.footerText, isDark && styles.textMutedDark]}>
-                Bạn chưa có tài khoản?{' '}
-              </Text>
-              <TouchableOpacity>
-                <Text style={styles.signupText}>Đăng ký</Text>
-              </TouchableOpacity>
-            </View> */}
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 export default Login;

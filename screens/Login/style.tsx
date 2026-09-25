@@ -38,14 +38,14 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginBottom: 48,
+    marginBottom: 24,
   },
   logoContainer: {
-    width: 120,
-    height: 120,
+    width: 96,
+    height: 96,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   logoImage: {
     width: '100%',
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   brandName: {
     fontFamily: 'Manrope',
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: '800',
     color: '#222353',
     letterSpacing: -0.5,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#ffffff',
     borderRadius: 24,
-    padding: 32,
+    padding: 24,
     shadowColor: '#191c1d',
     shadowOffset: { width: 0, height: 20 },
     shadowOpacity: 0.04,
@@ -76,25 +76,25 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
   },
   cardHeader: {
-    marginBottom: 32,
+    marginBottom: 20,
   },
   title: {
     fontFamily: 'Manrope',
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '700',
     color: '#191c1d',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#464652',
-    lineHeight: 22,
+    lineHeight: 18,
   },
   form: {
-    gap: 24,
+    gap: 16,
   },
   inputGroup: {
-    gap: 8,
+    gap: 6,
   },
   passwordHeader: {
     flexDirection: 'row',
