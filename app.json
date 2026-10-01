@@ -2,7 +2,7 @@
   "expo": {
     "name": "CSDLGiaMobile",
     "slug": "CSDLGiaMobile",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,10 +20,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "vn.lifesc.giathainguyen"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e58b7394-0348-47d4-a081-90f857147085"
+      }
     }
   }
 }

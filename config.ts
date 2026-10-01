@@ -1,1 +1,2 @@
-export const API_BASE_URL = 'https://subintegumental-earthly-lon.ngrok-free.dev/api';
+// export const API_BASE_URL = 'https://subintegumental-earthly-lon.ngrok-free.dev/api';
+export const API_BASE_URL = 'https://giathainguyen.lifesc.vn/api';
