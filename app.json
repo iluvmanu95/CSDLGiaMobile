@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "CSDLGiaMobile",
+    "name": "Giá Thái Nguyên",
     "slug": "CSDLGiaMobile",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -14,7 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "vn.lifesc.giathainguyen"
+      "bundleIdentifier": "vn.lifesc.giathainguyen",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
